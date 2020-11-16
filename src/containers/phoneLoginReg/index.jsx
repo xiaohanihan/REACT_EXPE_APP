@@ -1,9 +1,10 @@
 import React from 'react';
 import { NavBar, Icon, InputItem, WhiteSpace, Button, WingBlank } from 'antd-mobile';
 import { createForm } from 'rc-form';
-import './index.less'
+import './index.less';
+import { Link } from "react-router-dom";
 
-class LoginC extends React.Component {
+class PhoneLoginReg extends React.Component {
     state = {
         data: ['1', '2', '3'],
         imgHeight: 176,
@@ -23,7 +24,7 @@ class LoginC extends React.Component {
             <NavBar
                 mode="dark"
                 leftContent={<Icon type="cross"></Icon>}
-                rightContent={<p>密码登录</p>}
+                rightContent={<Link to='/pwdRegister' style={{color: 'white'}}>密码登录</Link>}
             >手机号登陆注册</NavBar>
             <WhiteSpace size="lg" />
             <div className='top_bg_div'>
@@ -55,5 +56,5 @@ class LoginC extends React.Component {
     }
 }
 
-const Login = createForm()(LoginC);
-export default Login;
+const PhoneLoginRegCon = createForm()(PhoneLoginReg);
+export default PhoneLoginRegCon;

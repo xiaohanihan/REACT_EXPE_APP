@@ -33,7 +33,7 @@ module.exports = override(
     addLessLoader({
         lessOptions: {
             javascriptEnabled: true,
-            modifyVars: { '@brand-primary': '#FB7299', '@brand-primary-tap': 'green' }
+            modifyVars: { '@brand-primary': '#FB7299', '@brand-primary-tap': '#FCAAC2', '@color-text-disabled': '#bbb' }
         }
     }),
     addPostcssPlugins(
