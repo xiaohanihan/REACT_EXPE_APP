@@ -7,10 +7,10 @@ import '../../assets/index.less'
 
 class PwdLogin extends React.Component {
   state = {
-    data: ['1', '2', '3'],
-    imgHeight: 176,
+    account: '',
+    pwd: ''
   }
-  componentDidMount () {
+  componentDidMount() {
     // simulate img loading
     setTimeout(() => {
       this.setState({
@@ -19,13 +19,21 @@ class PwdLogin extends React.Component {
     }, 100);
   }
 
-  render () {
+  register = () => {
+    this.props.history.push('/phoneLoginReg')
+  }
+
+  handleChange = (stateName, val) => {
+    this.setState({ [stateName]: val })
+  }
+
+  render() {
     const { getFieldProps } = this.props.form;
     return <div>
       <NavBar
         mode="dark"
         leftContent={<Icon type="cross"></Icon>}
-        rightContent={<Link to='/phoneLoginReg' style={{color: 'white'}}>手机登录</Link>}
+        rightContent={<Link to='/phoneLoginReg' style={{ color: 'white' }}>手机登录</Link>}
       >密码登录</NavBar>
       <WhiteSpace size="lg" />
       <div className='top_bg_div'>
@@ -36,23 +44,25 @@ class PwdLogin extends React.Component {
         {...getFieldProps('money3')}
         type='text'
         // defaultValue={100}
-        placeholder="请输入手机号"
+        placeholder="请输入账号"
         clear
         moneyKeyboardAlign="left"
-      >+86</InputItem>
+        onChange={val => this.handleChange('account', val)}
+      >账号</InputItem>
 
       <InputItem
         {...getFieldProps('money3')}
         type='number'
         // defaultValue={100}
-        placeholder="请输入验证码"
+        placeholder="请输入密码"
         clear
         moneyKeyboardAlign="left"
-      >验证码</InputItem>
+        onChange={val => this.handleChange('pwd', val)}
+      >密码</InputItem>
       <WhiteSpace size="xl" />
       <WingBlank>
-        <Button type="ghost" inline style={{ marginRight: '4%' }} className='inline-btn'>注册</Button>
-        <Button type="primary" inline className='inline-btn' disabled>登录</Button>
+        <Button type="ghost" inline style={{ marginRight: '4%' }} className='inline-btn' onClick={this.register}>注册</Button>
+        <Button type="primary" inline className='inline-btn'>登录</Button>
         <WhiteSpace />
       </WingBlank>
       <p style={{ color: '#BBBBBB', fontSize: '12px', textAlign: "center" }}>
