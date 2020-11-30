@@ -1,5 +1,12 @@
 import React from 'react'
-import { ImagePicker } from 'antd-mobile'
+import CameraSvg from '../../assets/svg/camera.svg'
+import Scanning from '../../assets/svg/scanning.svg'
+import Color from '../../assets/svg/color.svg'
+import Moon from '../../assets/svg/moon.svg'
+import './personalInfo.less'
+import { formAxios } from '../../utils/axios'
+import { NavBar  } from 'antd-mobile';
+import SpanItem from '../../components/spanItem/spanItem'
 
 // const data = [{
 //     url: 'https://zos.alipayobjects.com/rmsportal/PZUUCKTRIHWiZSY.jpeg',
@@ -11,8 +18,11 @@ import { ImagePicker } from 'antd-mobile'
 
 class PersonalInfo extends React.Component {
     state = {
-        files: [],
         multiple: false,
+        imageFile: '',
+        headPath: 'https://i0.hdslb.com/bfs/face/member/noface.jpg@72w_72h_1c.webp',
+        isImgShadow: '',
+        isImgCamera: ''
     }
 
     onSegChange = (e) => {
@@ -27,24 +37,41 @@ class PersonalInfo extends React.Component {
         console.log(this.imageUpload)
     }
 
+    handleChange = async (stateName, val) => {
+        let file = this.imageUpload.files[0];
+        const data = new FormData();
+        data.append('image', file);
+        const { data: result } = await formAxios.post('/upload', data)
+        this.setState({ headPath: result.path, isImgShadow: 'none', isImgCamera: 'none' })
+    }
+
     render() {
-        const { files } = this.state;
-        // const CustomIcon = ({ type, className = '', size = 'md', ...restProps }) => (
-        //     <svg
-        //         className={`am-icon am-icon-${type.substr(1)} am-icon-${size} ${className}`}
-        //         {...restProps}
-        //     >
-        //         <use xlinkHref={type} /> {/* svg-sprite-loader@0.3.x */}
-        //         {/* <use xlinkHref={#${type.default.id}} /> */} {/* svg-sprite-loader@latest */}
-        //     </svg>
-        // );
-        
+        const { headPath, isImgShadow, isImgCamera } = this.state
         return <div>
-            <input type='file' style={{ 'display': 'none' }} ref={e => this.imageUpload = e} />
-            {/* <CustomIcon type={require('./foo.svg')} /> */}
-            <img width='50' height='50' style={{ 'border-radius': '50%' }} src='https://i0.hdslb.com/bfs/face/member/noface.jpg@72w_72h_1c.webp' />
-            <img src="../../assets/svg/camera.svg" class="am-icon am-icon-md" alt=""></img>
-            <button onClick={this.uploadImage}>测试</button>
+            <NavBar
+                mode="light"
+                // icon={<Icon type="left" />}
+                onLeftClick={() => console.log('onLeftClick')}
+                leftContent={
+                    <SpanItem></SpanItem>
+                }
+                rightContent={[
+                    <img className={'img-icon'} src={Scanning} alt="" />,
+                    <span>&emsp;&nbsp;&nbsp;</span>,
+                    <img className={'img-icon'} src={Color} alt="" />,
+                    <span>&emsp;&nbsp;&nbsp;</span>,
+                    <img className={'img-icon'} src={Moon} alt="" />,
+                ]}
+            ></NavBar>
+            <div className="head-img head-img-div" onClick={this.uploadImage}>
+                <input type='file' style={{ 'display': 'none' }} ref={e => this.imageUpload = e}
+                    onChange={val => this.handleChange('imageFile', val)} name='image' />
+                <img className={'head-img'}
+                    src={headPath}
+                    alt="" />
+                <div style={{ display: isImgShadow }} className='head-img head-img-up-div'></div>
+                <img style={{ display: isImgCamera }} src={CameraSvg} className="am-icon am-icon-md head-img-up" alt=""></img>
+            </div>
         </div>
     }
 }
