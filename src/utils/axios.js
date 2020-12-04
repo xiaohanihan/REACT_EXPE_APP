@@ -1,4 +1,4 @@
-const axios = require('axios')
+let axios = require('axios')
 
 export const baseAxios = axios.create({
     timeout: 1000,

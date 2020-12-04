@@ -1,16 +1,35 @@
 /**
  * 包含多个reducer函数，根据state和指定的action返回一个新的state
  */
-import { combineReducers } from 'redux'
+import {
+    combineReducers
+} from 'redux'
+import {
+    AUTH_SUCCESS,
+    ERROR_MSG
+} from './action-types'
 
- function xxx(state=0, action){
-     return state;
- }
+const initUser = {
+    account: '',
+    headUrl: '',
+    msg: ''
+}
+// 产生user状态的state
+function user(state = initUser, action) {
+    switch (action.type) {
+        case AUTH_SUCCESS:
+            return {
+                ...state, ...action
+            }
+            break;
+        case ERROR_MSG:
+            return {
+                ...state, msg: action.data
+            }
+            break;
+    }
+}
 
- function yyy(state=0, action){
-     return state;
- }
-
- export default combineReducers({
-     xxx,yyy
- })
+export default combineReducers({
+    user
+})

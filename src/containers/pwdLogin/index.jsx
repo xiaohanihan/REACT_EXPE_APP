@@ -33,7 +33,7 @@ class PwdLogin extends React.Component {
       <NavBar
         mode="dark"
         leftContent={<Icon type="cross"></Icon>}
-        rightContent={<Link to='/phoneLoginReg' style={{ color: 'white' }}>手机登录</Link>}
+        rightContent={<Link to='/phoneLoginReg' style={{ color: 'white' }}>注册</Link>}
       >密码登录</NavBar>
       <WhiteSpace size="lg" />
       <div className='top_bg_div'>

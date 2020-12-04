@@ -1,13 +1,13 @@
 .head-img {
-    width: 80px;
-    height: 80px;
+    width: 90px;
+    height: 90px;
 
     .head-img-up-div {
         background-color: black;
         position: absolute;
         top: 0;
         left: 0;
-        opacity: 0.3;
+        opacity: 0.5;
     }
 
     .head-img-up {
@@ -27,6 +27,121 @@
 }
 
 .img-icon {
-    width: 30px;
-    height: 30px;
+    width: 25px;
+    height: 25px;
+}
+
+.top-nav-div {
+    display: flex;
+    height: 10vw;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 15px 0 15px;
+}
+
+.info-out-div {
+    padding: 0 15px 0 15px;
+    display: flex;
+    margin-top: 15px;
+    align-items: center;
+    height: 90px;
+}
+
+.info-name-span {
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.info-text-div {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin-left: 15px;
+    height: 100%;
+}
+
+.info-vip-btn {
+    width: 90px;
+}
+
+.info-space-arrow {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    float: right;
+    flex: 1;
+    justify-content: flex-end;
+}
+
+.ship-div {
+    display: flex;
+    justify-content: center;
+    height: 100px;
+    align-items: center;
+    position: relative;
+
+    >div {
+        flex: 1 1;
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+
+        >div {
+            align-self: center;
+        }
+    }
+
+    .ship-text {
+        margin-top: 5px;
+    }
+
+    .ship-number {
+        font-size: 20px;
+        font-weight: bold;
+    }
+}
+
+.ship-div:before {
+    content: " ";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    height: 1px;
+    border-bottom: 1px solid #FB7299;
+    color: #FB7299;
+    -webkit-transform-origin: 0 0;
+    transform-origin: 0 0;
+    -webkit-transform: scaleY(0.5);
+    transform: scaleY(0.5);
+}
+
+.display-div {
+    display: flex;
+    justify-content: space-around;
+}
+
+.display-column-div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 90px;
+    height: 90px;
+    justify-content: center;
+    .span-tag {
+        margin-top: 5px;
+    }
+}
+
+.down-icon {
+    height: 35px;
+    width: 35px;
+}
+
+.info-title{
+    font-size: 18px;
+    font-weight: bold;
+    height: 40px;
+    line-height: 50px;
+    padding: 0 15px 0 15px;
 }
