@@ -7,6 +7,9 @@ import {
     AUTH_SUCCESS,
     ERROR_MSG
 } from './action-types'
+import {
+    baseAxios
+} from '../utils/axios'
 // 授权成功的同步action
 const authSuccess = user => ({
     type: AUTH_SUCCESS,
@@ -28,8 +31,11 @@ export const login = user => {
                 dispatch(authSuccess(result.data))
             }
         } catch (err) {
-            // Toast.fail(`注册失败：${err.response.data.message}`)
-            dispatch(errorMsg(err.response.data.message))
+            if (err.response) {
+                dispatch(errorMsg(err.response.data.message))
+            }else{
+                dispatch(errorMsg('连接失败...'))
+            }
         }
     }
 }

@@ -8,7 +8,7 @@ import { baseAxios } from '../../utils/axios';
 /**
  * 注册
  */
-class PhoneLoginReg extends React.Component {
+class Register extends React.Component {
     state = {
         phone: '',
         password: ''
@@ -35,7 +35,7 @@ class PhoneLoginReg extends React.Component {
             <NavBar
                 mode="dark"
                 leftContent={<Icon type="cross"></Icon>}
-                rightContent={<Link to='/pwdRegister' style={{ color: 'white' }}>密码登录</Link>}
+                rightContent={<Link to='/login' style={{ color: 'white' }}>密码登录</Link>}
             >注册</NavBar>
             <WhiteSpace size="lg" />
             <div className='top_bg_div'>
@@ -82,5 +82,5 @@ class PhoneLoginReg extends React.Component {
     }
 }
 
-const PhoneLoginRegCon = createForm()(PhoneLoginReg);
-export default PhoneLoginRegCon;
+const RegisterCon = createForm()(Register);
+export default RegisterCon;

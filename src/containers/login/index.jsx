@@ -1,14 +1,16 @@
 import React from 'react';
 import { NavBar, Icon, InputItem, WhiteSpace, Button, WingBlank } from 'antd-mobile';
-import { createForm } from 'rc-form';
 import { Link } from "react-router-dom";
 import './index.less';
 import '../../assets/index.less'
+import { connect } from 'react-redux'
+import {login, register} from '../../redux/actions'
 
-class PwdLogin extends React.Component {
+class Login extends React.Component {
   state = {
     account: '',
-    pwd: ''
+    pwd: '',
+    nickName: ''
   }
   componentDidMount() {
     // simulate img loading
@@ -19,8 +21,9 @@ class PwdLogin extends React.Component {
     }, 100);
   }
 
-  register = () => {
-    this.props.history.push('/phoneLoginReg')
+  login = () => {
+    this.props.login(this.state)
+    console.log(this.props)
   }
 
   handleChange = (stateName, val) => {
@@ -28,20 +31,18 @@ class PwdLogin extends React.Component {
   }
 
   render() {
-    const { getFieldProps } = this.props.form;
     return <div>
       <NavBar
         mode="dark"
         leftContent={<Icon type="cross"></Icon>}
-        rightContent={<Link to='/phoneLoginReg' style={{ color: 'white' }}>注册</Link>}
-      >密码登录</NavBar>
+        rightContent={<Link to='/register' style={{ color: 'white' }}>注册</Link>}
+      >登录</NavBar>
       <WhiteSpace size="lg" />
       <div className='top_bg_div'>
 
       </div>
       <WhiteSpace size="xl" />
       <InputItem
-        {...getFieldProps('money3')}
         type='text'
         // defaultValue={100}
         placeholder="请输入账号"
@@ -51,7 +52,6 @@ class PwdLogin extends React.Component {
       >账号</InputItem>
 
       <InputItem
-        {...getFieldProps('money3')}
         type='number'
         // defaultValue={100}
         placeholder="请输入密码"
@@ -61,8 +61,8 @@ class PwdLogin extends React.Component {
       >密码</InputItem>
       <WhiteSpace size="xl" />
       <WingBlank>
-        <Button type="ghost" inline style={{ marginRight: '4%' }} className='inline-btn' onClick={this.register}>注册</Button>
-        <Button type="primary" inline className='inline-btn'>登录</Button>
+        {/* <Button type="ghost" inline style={{ marginRight: '4%' }} className='inline-btn' onClick={this.register}>注册</Button> */}
+        <Button type="primary" onClick={this.login}>登录</Button>
         <WhiteSpace />
       </WingBlank>
       <p style={{ color: '#BBBBBB', fontSize: '12px', textAlign: "center" }}>
@@ -73,5 +73,7 @@ class PwdLogin extends React.Component {
   }
 }
 
-const PwdLoginCon = createForm()(PwdLogin);
-export default PwdLoginCon;
+export default connect(
+  state => state,
+  {login, register}
+)(Login)

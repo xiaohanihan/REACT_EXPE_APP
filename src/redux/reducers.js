@@ -21,12 +21,12 @@ function user(state = initUser, action) {
             return {
                 ...state, ...action
             }
-            break;
         case ERROR_MSG:
             return {
                 ...state, msg: action.data
             }
-            break;
+        default:
+            return state;
     }
 }
 

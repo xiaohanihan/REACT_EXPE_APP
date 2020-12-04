@@ -2,8 +2,8 @@ import React from 'react';
 import ReactDom from 'react-dom';
 
 import { HashRouter, Route, Switch } from 'react-router-dom';
-import PhoneLoginRegCon from './containers/phoneLoginReg';
-import PwdLoginCon from './containers/pwdLogin';
+import Register from './containers/register';
+import Login from './containers/login';
 import PersonalInfoCon from './containers/personalInfo/personalInfo.jsx';
 import Main from './containers/main';
 import { Provider } from 'react-redux'
@@ -14,8 +14,8 @@ ReactDom.render(
     <Provider store={store}>
         <HashRouter>
             <Switch>
-                <Route path='/phoneLoginReg' component={PhoneLoginRegCon}></Route>
-                <Route path='/pwdRegister' component={PwdLoginCon}></Route>
+                <Route path='/login' component={Login}></Route>
+                <Route path='/register' component={Register}></Route>
                 <Route path='/personalInfo' component={PersonalInfoCon}></Route>
                 <Route component={Main}></Route>
             </Switch>
