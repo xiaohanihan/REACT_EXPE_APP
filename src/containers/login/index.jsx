@@ -1,10 +1,11 @@
 import React from 'react';
-import { NavBar, Icon, InputItem, WhiteSpace, Button, WingBlank } from 'antd-mobile';
+import { NavBar, Icon, InputItem, WhiteSpace, Button, WingBlank, Toast } from 'antd-mobile';
 import { Link } from "react-router-dom";
 import './index.less';
 import '../../assets/index.less'
 import { connect } from 'react-redux'
-import {login, register} from '../../redux/actions'
+import { userAuthSuccess } from '../../redux/actions'
+import { baseAxios } from '../../utils/axios'
 
 class Login extends React.Component {
   state = {
@@ -21,9 +22,20 @@ class Login extends React.Component {
     }, 100);
   }
 
-  login = () => {
-    this.props.login(this.state)
-    console.log(this.props)
+  login = async () => {
+    try {
+      const result = await baseAxios.post('/login', this.state);
+      if (result.status === 200) {
+        this.props.userAuthSuccess(result.data)
+        Toast.success('登录成功')
+      }
+    } catch (err) {
+      if(err.response){
+        Toast.fail(err.response.data.message)
+      }else{
+        Toast.fail('连接失败')
+      }
+    }
   }
 
   handleChange = (stateName, val) => {
@@ -52,7 +64,7 @@ class Login extends React.Component {
       >账号</InputItem>
 
       <InputItem
-        type='number'
+        type='password'
         // defaultValue={100}
         placeholder="请输入密码"
         clear
@@ -75,5 +87,5 @@ class Login extends React.Component {
 
 export default connect(
   state => state,
-  {login, register}
+  { userAuthSuccess }
 )(Login)

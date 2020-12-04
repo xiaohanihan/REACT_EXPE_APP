@@ -11,8 +11,7 @@ import {
 
 const initUser = {
     account: '',
-    headUrl: '',
-    msg: ''
+    headUrl: ''
 }
 // 产生user状态的state
 function user(state = initUser, action) {
@@ -22,9 +21,10 @@ function user(state = initUser, action) {
                 ...state, ...action
             }
         case ERROR_MSG:
-            return {
+            const result = {
                 ...state, msg: action.data
-            }
+            };
+            return result;
         default:
             return state;
     }

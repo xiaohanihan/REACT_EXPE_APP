@@ -1,6 +1,7 @@
 let axios = require('axios')
 
 export const baseAxios = axios.create({
+    baseURL: '/api',
     timeout: 1000,
 })
 
