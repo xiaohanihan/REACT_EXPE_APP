@@ -1,23 +1,25 @@
 import React from 'react'
-import { CameraSvg,Scanning,Color,Moon,DownloadSvg,History,Mark,Play } from '../../utils/importSvg'
+import { CameraSvg, Scanning, Color, Moon, DownloadSvg, History, Mark, Play } from '../../utils/importSvg'
 import './personalInfo.less'
-import { formAxios } from '../../utils/axios'
+import { baseAxios, doRequest, formAxios } from '../../utils/axios'
 import { Icon, Tag } from 'antd-mobile';
 import SpanItem from '../../components/spanItem/spanItem';
-import '../../assets/index.less'
+import '../../assets/index.less';
+import { connect } from 'react-redux';
+import { userAuthSuccess } from '../../redux/actions'
 
 class PersonalInfo extends React.Component {
     state = {
         multiple: false,
         imageFile: '',
-        headPath: 'https://i0.hdslb.com/bfs/face/member/noface.jpg@72w_72h_1c.webp',
+        headPath: require('../../assets/pictures/noface.jpg@72w_72h_1c.webp'),
         isImgShadow: '',
         isImgCamera: '',
         creatCenterTip: [
-            {name: '离线缓存', icon: DownloadSvg},
-            {name: '历史记录', icon: History},
-            {name: '我的收藏', icon: Mark},
-            {name: '稍后再看', icon: Play},
+            { name: '离线缓存', icon: DownloadSvg },
+            { name: '历史记录', icon: History },
+            { name: '我的收藏', icon: Mark },
+            { name: '稍后再看', icon: Play },
         ]
     }
 
@@ -30,15 +32,16 @@ class PersonalInfo extends React.Component {
 
     uploadImage = () => {
         this.imageUpload.click()
-        console.log(this.imageUpload)
     }
 
     handleChange = async (stateName, val) => {
-        let file = this.imageUpload.files[0];
-        const data = new FormData();
-        data.append('image', file);
-        const { data: result } = await formAxios.post('/upload', data)
-        this.setState({ headPath: result.path, isImgShadow: 'none', isImgCamera: 'none' })
+        // let file = this.imageUpload.files[0];
+        // const data = new FormData();
+        // data.append('image', file);
+        // const { data: result } = await formAxios.post('/upload', data);
+        // 将头像路径 保存
+        doRequest(() => baseAxios.put(`/users/${this.props.user._id}`,))
+        //this.setState({ headPath: result.path, isImgShadow: 'none', isImgCamera: 'none' })
     }
 
     render() {
@@ -66,7 +69,7 @@ class PersonalInfo extends React.Component {
                 </div>
                 <div className='info-text-div'>
                     <div className='info-one-div'>
-                        <span className='info-name-span'>98460747516_bili</span>
+                        <span className='info-name-span'>{ this.props.user.nickName}</span>
                         &nbsp;&nbsp;
                         <span className='dep-color'>Lv0</span>
                     </div>
@@ -110,4 +113,7 @@ class PersonalInfo extends React.Component {
     }
 }
 
-export default PersonalInfo;
+export default connect(
+    state => state,
+    { userAuthSuccess }
+)(PersonalInfo)
