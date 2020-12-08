@@ -1,38 +1,32 @@
 import React from 'react';
 import { NavBar, Icon, InputItem, WhiteSpace, Button, WingBlank, Toast } from 'antd-mobile';
-import { userAuthSuccess } from '../../redux/actions'
+import { createForm } from 'rc-form';
 import './index.less';
 import { Link } from "react-router-dom";
-import { baseAxios, doRequest } from '../../utils/axios';
-import { connect } from 'react-redux'
+import { baseAxios } from '../../utils/axios';
 
 /**
  * 注册
  */
 class Register extends React.Component {
     state = {
-        account: '',
-        password: '',
-        nickName: '',
-        isLoginDisabled: true
+        phone: '',
+        password: ''
     }
 
-    handleChange = async (stateName, val) => {
-        await this.setState({ [stateName]: val });
-        const { account, password, nickName } = this.state;
-        let isLoginDisabled = true;
-        if (account && password && nickName) {
-            isLoginDisabled = false;
-        }
-        this.setState({ isLoginDisabled })
+    handleChange = (stateName, val) => {
+        this.setState({ [stateName]: val })
     }
 
-    register = async () => {
-        const { data, status } = await doRequest(() => baseAxios.post('/users', this.state), 200)
-        if (status === 200) {
-            this.props.userAuthSuccess(data)
-            this.props.history.push('/')
-            Toast.success('注册成功')
+    login = async () => {
+        try {
+            const result = await baseAxios('/users', this.state);
+            if (result.status === 200) {
+                Toast.success('注册成功');
+                this.props.history.push('/')
+            }
+        } catch (err) {
+            Toast.fail(`注册失败：${err.response.data.message}`)
         }
     }
 
@@ -53,26 +47,27 @@ class Register extends React.Component {
                 // defaultValue={100}
                 placeholder="请输入账号"
                 moneyKeyboardAlign="left"
-                onChange={val => this.handleChange('account', val)}
+                onChange={val => this.handleChange('phone', val)}
             >账号</InputItem>
 
             <InputItem
+                type='number'
                 // defaultValue={100}
                 placeholder="请输入密码"
                 moneyKeyboardAlign="left"
-                type='password'
                 onChange={val => this.handleChange('password', val)}
             >密码</InputItem>
 
             <InputItem
+                type='number'
                 // defaultValue={100}
                 placeholder="请输入昵称"
                 moneyKeyboardAlign="left"
-                onChange={val => this.handleChange('nickName', val)}
+                onChange={val => this.handleChange('password', val)}
             >昵称</InputItem>
             <WhiteSpace size="xl" />
             <WingBlank>
-                <Button type="primary" onClick={this.register} disabled={this.state.isLoginDisabled}>注册</Button><WhiteSpace />
+                <Button type="primary" onClick={this.login}>注册</Button><WhiteSpace />
             </WingBlank>
             <p style={{ color: '#BBBBBB', fontSize: '12px', textAlign: "center" }}>
                 未注册或未绑定哔哔哩哩的手机号，将帮你注册新账号
@@ -87,7 +82,5 @@ class Register extends React.Component {
     }
 }
 
-export default connect(
-    state => state,
-    { userAuthSuccess }
-)(Register)
+const RegisterCon = createForm()(Register);
+export default RegisterCon;

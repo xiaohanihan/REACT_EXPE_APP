@@ -10,9 +10,8 @@ import { baseAxios } from '../../utils/axios'
 class Login extends React.Component {
   state = {
     account: '',
-    password: '',
-    nickName: '',
-    isLoginDisabled: true
+    pwd: '',
+    nickName: ''
   }
   componentDidMount() {
     // simulate img loading
@@ -25,33 +24,25 @@ class Login extends React.Component {
 
   login = async () => {
     try {
-      const result = await baseAxios.post('/users/login', this.state);
+      const result = await baseAxios.post('/login', this.state);
       if (result.status === 200) {
         this.props.userAuthSuccess(result.data)
-        this.props.history.push('/')
         Toast.success('登录成功')
       }
     } catch (err) {
-      if (err.response) {
+      if(err.response){
         Toast.fail(err.response.data.message)
-      } else {
+      }else{
         Toast.fail('连接失败')
       }
     }
   }
 
-  handleChange = async (stateName, val) => {
-    await this.setState({ [stateName]: val});
-    const {account, password} = this.state;
-    let isLoginDisabled = true;
-    if(account && password){
-      isLoginDisabled = false;
-    }
-    this.setState({ isLoginDisabled })
+  handleChange = (stateName, val) => {
+    this.setState({ [stateName]: val })
   }
 
   render() {
-    const { isLoginDisabled } = this.state;
     return <div>
       <NavBar
         mode="dark"
@@ -78,12 +69,12 @@ class Login extends React.Component {
         placeholder="请输入密码"
         clear
         moneyKeyboardAlign="left"
-        onChange={val => this.handleChange('password', val)}
+        onChange={val => this.handleChange('pwd', val)}
       >密码</InputItem>
       <WhiteSpace size="xl" />
       <WingBlank>
         {/* <Button type="ghost" inline style={{ marginRight: '4%' }} className='inline-btn' onClick={this.register}>注册</Button> */}
-        <Button type="primary" onClick={this.login} disabled={isLoginDisabled}>登录</Button>
+        <Button type="primary" onClick={this.login}>登录</Button>
         <WhiteSpace />
       </WingBlank>
       <p style={{ color: '#BBBBBB', fontSize: '12px', textAlign: "center" }}>
