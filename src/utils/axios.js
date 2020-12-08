@@ -8,7 +8,10 @@ const baseAxios = axios.create({
 baseAxios.interceptors.response.use(res => {
     console.log(res)
 },error => {
-    console.log(error.response)
+    // 如果返回 403，则提示重新登录
+    if(error.response && error.response.status === 403){
+        
+    }
 });
 
 export { baseAxios }
