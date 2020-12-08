@@ -10,6 +10,7 @@ import { Provider } from 'react-redux'
 import store from './redux/store'
 import './assets/index.less'
 
+// 测试提交hahahh
 ReactDom.render(
     <Provider store={store}>
         <HashRouter>
