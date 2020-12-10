@@ -1,3 +1,6 @@
+import {
+    hashHistory
+} from './history'
 let axios = require('axios')
 
 const baseAxios = axios.create({
@@ -5,16 +8,9 @@ const baseAxios = axios.create({
     timeout: 1000,
 })
 
-baseAxios.interceptors.response.use(res => {
-    console.log(res)
-},error => {
-    // 如果返回 403，则提示重新登录
-    if(error.response && error.response.status === 403){
-        
-    }
-});
-
-export { baseAxios }
+export {
+    baseAxios
+}
 
 export const formAxios = axios.create({
     timeout: 1000,
@@ -22,3 +18,14 @@ export const formAxios = axios.create({
         'Content-Type': 'multipart/form-data'
     }
 })
+
+formAxios.interceptors.response.use(res => {
+    console.log('哈哈哈')
+    console.log(res)
+}, error => {
+    // 如果返回 401，则提示重新登录
+    console.log('嘿嘿嘿')
+    if (error.response && error.response.data.status === 401) {
+        hashHistory.push('login')
+    }
+});

@@ -15,10 +15,10 @@ ReactDom.render(
     <Provider store={store}>
         <HashRouter>
             <Switch>
-                <Route path='/login' component={Login}></Route>
-                <Route path='/register' component={Register}></Route>
-                <Route path='/personalInfo' component={PersonalInfoCon}></Route>
-                <Route component={Main}></Route>
+                <Route path='/login' component={Login} exact={true}></Route>
+                <Route path='/register' component={Register} exact={true}></Route>
+                <Route path='/personalInfo' component={PersonalInfoCon} exact={true}></Route>
+                <Route path='/' exact={true} component={Main}></Route>
             </Switch>
         </HashRouter>
     </Provider>, document.getElementById('root'))

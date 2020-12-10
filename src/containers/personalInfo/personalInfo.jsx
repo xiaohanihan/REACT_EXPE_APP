@@ -1,5 +1,5 @@
 import React from 'react'
-import { CameraSvg,Scanning,Color,Moon,DownloadSvg,History,Mark,Play } from '../../utils/importSvg'
+import { CameraSvg, Scanning, Color, Moon, DownloadSvg, History, Mark, Play } from '../../utils/importSvg'
 import './personalInfo.less'
 import { formAxios } from '../../utils/axios'
 import { Icon, Tag } from 'antd-mobile';
@@ -14,10 +14,10 @@ class PersonalInfo extends React.Component {
         isImgShadow: '',
         isImgCamera: '',
         creatCenterTip: [
-            {name: '离线缓存', icon: DownloadSvg},
-            {name: '历史记录', icon: History},
-            {name: '我的收藏', icon: Mark},
-            {name: '稍后再看', icon: Play},
+            { name: '离线缓存', icon: DownloadSvg },
+            { name: '历史记录', icon: History },
+            { name: '我的收藏', icon: Mark },
+            { name: '稍后再看', icon: Play },
         ]
     }
 
@@ -37,8 +37,13 @@ class PersonalInfo extends React.Component {
         let file = this.imageUpload.files[0];
         const data = new FormData();
         data.append('image', file);
-        const { data: result } = await formAxios.post('/upload', data)
-        this.setState({ headPath: result.path, isImgShadow: 'none', isImgCamera: 'none' })
+        const result= await formAxios.post('/upload', data)
+        console.log(result)
+        // if (status === 200) {
+        //     this.setState({ headPath: result.path, isImgShadow: 'none', isImgCamera: 'none' })
+        // }else{
+        //     this.imageUpload.value = null;
+        // }
     }
 
     render() {
