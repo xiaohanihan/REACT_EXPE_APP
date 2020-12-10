@@ -5,6 +5,7 @@ import { formAxios } from '../../utils/axios'
 import { Icon, Tag } from 'antd-mobile';
 import SpanItem from '../../components/spanItem/spanItem';
 import '../../assets/index.less'
+import history from '../../utils/history'
 
 class PersonalInfo extends React.Component {
     state = {
@@ -34,16 +35,17 @@ class PersonalInfo extends React.Component {
     }
 
     handleChange = async (stateName, val) => {
-        let file = this.imageUpload.files[0];
-        const data = new FormData();
-        data.append('image', file);
-        const result= await formAxios.post('/upload', data)
-        console.log(result)
+        history.push('./login')
+        // let file = this.imageUpload.files[0];
+        // const data = new FormData();
+        // data.append('image', file);
+        // const result= await formAxios.post('/upload', data)
+        // console.log(result)
         // if (status === 200) {
         //     this.setState({ headPath: result.path, isImgShadow: 'none', isImgCamera: 'none' })
         // }else{
         //     this.imageUpload.value = null;
-        // }
+        // }  z
     }
 
     render() {

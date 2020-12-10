@@ -1,6 +1,4 @@
-import {
-    hashHistory
-} from './history'
+import history from './history'
 let axios = require('axios')
 
 const baseAxios = axios.create({
@@ -24,8 +22,7 @@ formAxios.interceptors.response.use(res => {
     console.log(res)
 }, error => {
     // 如果返回 401，则提示重新登录
-    console.log('嘿嘿嘿')
     if (error.response && error.response.data.status === 401) {
-        hashHistory.push('login')
+        history.push('/login')
     }
 });

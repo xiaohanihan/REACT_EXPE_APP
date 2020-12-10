@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDom from 'react-dom';
 
-import { HashRouter, Route, Switch } from 'react-router-dom';
+import {Route, Switch, Router } from 'react-router-dom';
 import Register from './containers/register';
 import Login from './containers/login';
 import PersonalInfoCon from './containers/personalInfo/personalInfo.jsx';
@@ -13,12 +13,12 @@ import './assets/index.less'
 // 测试提交hahahh
 ReactDom.render(
     <Provider store={store}>
-        <HashRouter>
-            <Switch>
+        <Router history={BrowserHistory}>
+            {/* <Switch> */}
                 <Route path='/login' component={Login} exact={true}></Route>
                 <Route path='/register' component={Register} exact={true}></Route>
                 <Route path='/personalInfo' component={PersonalInfoCon} exact={true}></Route>
                 <Route path='/' exact={true} component={Main}></Route>
-            </Switch>
-        </HashRouter>
+            {/* </Switch> */}
+        </Router>
     </Provider>, document.getElementById('root'))

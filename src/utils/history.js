@@ -1,10 +1,6 @@
 /**
  * 路由
  */
-import {
-    createBrowserHistory,
-    createHashHistory
-} from 'history'
+import history from 'history/browser';
 
-export const history = createBrowserHistory()
-export const hashHistory = createHashHistory()
+export default history;
