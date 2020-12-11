@@ -1,6 +1,6 @@
 /**
  * 路由
  */
-import history from 'history/browser';
-
-export default history;
+import { createBrowserHistory } from 'history';
+ 
+export default  createBrowserHistory();
