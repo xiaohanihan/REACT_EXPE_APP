@@ -20,13 +20,16 @@ ReactDom.render(
     <Router history={history}>
       <Switch>
         <Route path='/login'>
-          <Login key='login'></Login>
+          <Login></Login>
         </Route>
         <Route path='/register'>
-          <Register key='register'></Register>
+          <Register></Register>
         </Route>
         <Route path='/personalInfo'>
-          <PersonalInfoCon key='personalInfo'></PersonalInfoCon>
+          <PersonalInfoCon></PersonalInfoCon>
+        </Route>
+        <Route path='/' exact>
+          <Main></Main>
         </Route>
       </Switch>
     </Router>

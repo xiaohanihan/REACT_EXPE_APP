@@ -6,11 +6,13 @@ import '../../assets/index.less'
 import { connect } from 'react-redux'
 import { userAuthSuccess } from '../../redux/actions'
 import { baseAxios } from '../../utils/axios'
+import cookies from "react-cookies";
+import history from '../../utils/history';
 
 class Login extends React.Component {
   state = {
     account: '',
-    pwd: '',
+    password: '',
     nickName: ''
   }
   componentDidMount() {
@@ -24,9 +26,13 @@ class Login extends React.Component {
 
   login = async () => {
     try {
-      const result = await baseAxios.post('/login', this.state);
+      const result = await baseAxios.post('/users/login', this.state);
+      console.log(result)
       if (result.status === 200) {
-        this.props.userAuthSuccess(result.data)
+        this.props.userAuthSuccess(result.data.user)
+        // 将token存储到cookie中
+        cookies.save('token', result.data.token)
+        history.push('/personalInfo')
         Toast.success('登录成功')
       }
     } catch (err) {
@@ -69,7 +75,7 @@ class Login extends React.Component {
         placeholder="请输入密码"
         clear
         moneyKeyboardAlign="left"
-        onChange={val => this.handleChange('pwd', val)}
+        onChange={val => this.handleChange('password', val)}
       >密码</InputItem>
       <WhiteSpace size="xl" />
       <WingBlank>

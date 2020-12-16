@@ -11,14 +11,15 @@ import {
 
 const initUser = {
     account: '',
-    headUrl: ''
+    headUrl: '',
+    nickName: ''
 }
 // 产生user状态的state
 function user(state = initUser, action) {
     switch (action.type) {
         case AUTH_SUCCESS:
             return {
-                ...state, ...action
+                ...action.data
             }
         case ERROR_MSG:
             const result = {

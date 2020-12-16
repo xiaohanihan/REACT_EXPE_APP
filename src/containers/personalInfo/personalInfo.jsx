@@ -1,19 +1,19 @@
 import React from 'react'
 import { CameraSvg, Scanning, Color, Moon, DownloadSvg, History, Mark, Play } from '../../utils/importSvg'
 import './personalInfo.less'
-import { formAxios } from '../../utils/axios'
+import { baseAxios, formAxios } from '../../utils/axios'
 import { Icon, Tag } from 'antd-mobile';
 import SpanItem from '../../components/spanItem/spanItem';
 import '../../assets/index.less'
 import history from '../../utils/history'
+import { connect } from 'react-redux';
+import { userAuthSuccess } from '../../redux/actions'
 
 class PersonalInfo extends React.Component {
     state = {
         multiple: false,
         imageFile: '',
-        headPath: 'https://i0.hdslb.com/bfs/face/member/noface.jpg@72w_72h_1c.webp',
-        isImgShadow: '',
-        isImgCamera: '',
+        isImgShadow: this.props.user.headUrl?'none':'',
         creatCenterTip: [
             { name: '离线缓存', icon: DownloadSvg },
             { name: '历史记录', icon: History },
@@ -31,25 +31,27 @@ class PersonalInfo extends React.Component {
 
     uploadImage = () => {
         this.imageUpload.click()
-        console.log(this.imageUpload)
     }
 
     handleChange = async (stateName, val) => {
-        history.push('./login')
-        // let file = this.imageUpload.files[0];
-        // const data = new FormData();
-        // data.append('image', file);
-        // const result= await formAxios.post('/upload', data)
-        // console.log(result)
-        // if (status === 200) {
-        //     this.setState({ headPath: result.path, isImgShadow: 'none', isImgCamera: 'none' })
-        // }else{
-        //     this.imageUpload.value = null;
-        // }  z
+        let file = this.imageUpload.files[0];
+        const data = new FormData();
+        data.append('image', file);
+        const result = await formAxios.post('/upload', data)
+        if (result.status === 200) {
+            this.props.user['headUrl'] = result.data.path;
+            this.props.userAuthSuccess(this.props.user);
+            // 上传成功后更新用户的头像信息
+            await baseAxios.put(`/users/${this.props.user._id}`, {
+                headUrl: result.data.path
+            })
+        }
     }
 
     render() {
-        const { headPath, isImgShadow, isImgCamera, creatCenterTip } = this.state
+        const { isImgShadow, isImgCamera, creatCenterTip } = this.state
+        let { nickName, headUrl } = this.props.user;
+        headUrl = headUrl?headUrl:'https://i0.hdslb.com/bfs/face/member/noface.jpg@72w_72h_1c.webp';
         return <div>
             <div className="top-nav-div">
                 <SpanItem>挑战转正答题</SpanItem>
@@ -66,14 +68,14 @@ class PersonalInfo extends React.Component {
                     <input type='file' style={{ 'display': 'none' }} ref={e => this.imageUpload = e}
                         onChange={val => this.handleChange('imageFile', val)} name='image' />
                     <img className={'head-img'}
-                        src={headPath}
+                        src={headUrl}
                         alt="" />
                     <div style={{ display: isImgShadow }} className='head-img head-img-up-div'></div>
-                    <img style={{ display: isImgCamera }} src={CameraSvg} className="am-icon am-icon-md head-img-up" alt=""></img>
+                    <img style={{ display: isImgShadow }} src={CameraSvg} className="am-icon am-icon-md head-img-up" alt=""></img>
                 </div>
                 <div className='info-text-div'>
                     <div className='info-one-div'>
-                        <span className='info-name-span'>98460747516_bili</span>
+                        <span className='info-name-span'>{nickName}</span>
                         &nbsp;&nbsp;
                         <span className='dep-color'>Lv0</span>
                     </div>
@@ -117,4 +119,8 @@ class PersonalInfo extends React.Component {
     }
 }
 
-export default PersonalInfo;
+// export default PersonalInfo;
+export default connect(
+    state => state,
+    { userAuthSuccess }
+)(PersonalInfo)
