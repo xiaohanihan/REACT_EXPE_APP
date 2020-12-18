@@ -5,7 +5,6 @@ import { baseAxios, formAxios } from '../../utils/axios'
 import { Icon, Tag } from 'antd-mobile';
 import SpanItem from '../../components/spanItem/spanItem';
 import '../../assets/index.less'
-import history from '../../utils/history'
 import { connect } from 'react-redux';
 import { userAuthSuccess } from '../../redux/actions'
 
@@ -49,7 +48,7 @@ class PersonalInfo extends React.Component {
     }
 
     render() {
-        const { isImgShadow, isImgCamera, creatCenterTip } = this.state
+        const { isImgShadow, creatCenterTip } = this.state
         let { nickName, headUrl } = this.props.user;
         headUrl = headUrl?headUrl:'https://i0.hdslb.com/bfs/face/member/noface.jpg@72w_72h_1c.webp';
         return <div>

@@ -15,7 +15,7 @@ class Login extends React.Component {
     password: '',
     nickName: ''
   }
-  componentDidMount() {
+  componentDidMount () {
     // simulate img loading
     setTimeout(() => {
       this.setState({
@@ -25,20 +25,25 @@ class Login extends React.Component {
   }
 
   login = async () => {
-    try {
+    try
+    {
       const result = await baseAxios.post('/users/login', this.state);
       console.log(result)
-      if (result.status === 200) {
+      if (result.status === 200)
+      {
         this.props.userAuthSuccess(result.data.user)
         // 将token存储到cookie中
         cookies.save('token', result.data.token)
         history.push('/personalInfo')
         Toast.success('登录成功')
       }
-    } catch (err) {
-      if(err.response){
+    } catch (err)
+    {
+      if (err.response)
+      {
         Toast.fail(err.response.data.message)
-      }else{
+      } else
+      {
         Toast.fail('连接失败')
       }
     }
@@ -48,7 +53,7 @@ class Login extends React.Component {
     this.setState({ [stateName]: val })
   }
 
-  render() {
+  render () {
     return <div>
       <NavBar
         mode="dark"
@@ -56,33 +61,35 @@ class Login extends React.Component {
         rightContent={<Link to='/register' style={{ color: 'white' }}>注册</Link>}
       >登录</NavBar>
       <WhiteSpace size="lg" />
-      <div className='top_bg_div'>
-
-      </div>
+      <div className='top_bg_div'></div>
       <WhiteSpace size="xl" />
-      <InputItem
-        type='text'
-        // defaultValue={100}
-        placeholder="请输入账号"
-        clear
-        moneyKeyboardAlign="left"
-        onChange={val => this.handleChange('account', val)}
-      >账号</InputItem>
+      <form>
+        <InputItem
+          type='text'
+          // defaultValue={100}
+          placeholder="请输入账号"
+          clear
+          moneyKeyboardAlign="left"
+          onChange={val => this.handleChange('account', val)}
+          autoComplete="off"
+        >账号</InputItem>
 
-      <InputItem
-        type='password'
-        // defaultValue={100}
-        placeholder="请输入密码"
-        clear
-        moneyKeyboardAlign="left"
-        onChange={val => this.handleChange('password', val)}
-      >密码</InputItem>
-      <WhiteSpace size="xl" />
-      <WingBlank>
-        {/* <Button type="ghost" inline style={{ marginRight: '4%' }} className='inline-btn' onClick={this.register}>注册</Button> */}
-        <Button type="primary" onClick={this.login}>登录</Button>
-        <WhiteSpace />
-      </WingBlank>
+        <InputItem
+          type='password'
+          // defaultValue={100}
+          placeholder="请输入密码"
+          clear
+          moneyKeyboardAlign="left"
+          onChange={val => this.handleChange('password', val)}
+          autoComplete="off"
+        >密码</InputItem>
+        <WhiteSpace size="xl" />
+        <WingBlank>
+          {/* <Button type="ghost" inline style={{ marginRight: '4%' }} className='inline-btn' onClick={this.register}>注册</Button> */}
+          <Button type="primary" onClick={this.login}>登录</Button>
+          <WhiteSpace />
+        </WingBlank>
+      </form>
       <p style={{ color: '#BBBBBB', fontSize: '12px', textAlign: "center" }}>
         登录即代表你同意
         <span className='primary-color'>用户协议</span>和<span className='primary-color'>隐私政策</span>

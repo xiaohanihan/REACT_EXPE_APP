@@ -16,6 +16,10 @@ import Channel from '../assets/svg/channel.svg'
 import ChannelFull from '../assets/svg/channel_full.svg'
 import Buy from '../assets/svg/buy.svg'
 import BuyFull from '../assets/svg/buy_full.svg'
+import MsgCircle from '../assets/svg/message.svg'
+import MsgCircleFull from '../assets/svg/message_full.svg'
+import Person from '../assets/svg/person.svg'
+import PersonFull from '../assets/svg/person_full.svg'
 
 export { CameraSvg }
 export { Scanning }
@@ -35,3 +39,7 @@ export { ChannelFull }
 export { Buy }
 export { BuyFull }
 export { FirstFullPage }
+export { MsgCircle }
+export { MsgCircleFull }
+export { Person }
+export { PersonFull }
