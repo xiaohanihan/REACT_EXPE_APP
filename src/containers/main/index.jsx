@@ -6,25 +6,43 @@ import {
 } from '../../utils/importSvg';
 import './main.less';
 import PersonalInfo from '../personalInfo/personalInfo'
+import Cookies from 'react-cookies'
+import { Redirect } from 'react-router-dom'
+import { connect } from 'react-redux'
+import { userAuthSuccess } from '../../redux/actions'
+import { baseAxios } from '../../utils/axios'
 
-export default class Main extends React.Component {
+class Main extends React.Component {
   state = {
     selectedTab: 'firstPage',
     hidden: false,
     fullScreen: false,
     tabIcons: [
       { title: '首页', tabName: 'firstPage', icon: FirstPage, activeIcon: FirstFullPage, component: <div>22</div> },
-      { title: '频道', tabName: 'channel', icon: Person, PersonFull: PersonFull, component: <div>33</div> },
+      { title: '联系人', tabName: 'channel', icon: Person, activeIcon: PersonFull, component: <div>33</div> },
       { title: '动态', tabName: 'activeNews', icon: NewInfo, activeIcon: NewInfoFull, component: <div>44</div> },
       { title: '消息', tabName: 'buy', icon: MsgCircle, activeIcon: MsgCircleFull, component: <div>11</div> },
       { title: '我的', tabName: 'self', icon: Self, activeIcon: SelfFull, component: PersonalInfo },
     ]
   };
-  render () {
+
+  async componentDidMount() {
+    const { _id } = this.props.user;
+    const token = Cookies.load('token')
+    if (token && !_id) {
+      const user = await baseAxios.get(`/users/token/${token}`)
+      this.props.userAuthSuccess(user)
+    }
+  }
+
+  render() {
+    // 如果没有token信息，则跳转到登录页面
+    const token = Cookies.load('token');
+    if (!token) {
+      return <Redirect to='/login' />
+    }
+    // 如果有token，redux里没有_id，则自动获取用户信息保存到redux中
     const { tabIcons } = this.state;
-    console.log('哈哈')
-    const arr = [1]
-    console.log(arr[-1])
     return (
       <div style={{ position: 'fixed', height: '100%', width: '100%', top: 0 }}>
         <TabBar
@@ -50,97 +68,13 @@ export default class Main extends React.Component {
               </TabBar.Item>
             ))
           }
-          {/* <TabBar.Item
-                        title="首页"
-                        key="Life"
-                        icon={<img className='tab-icon-img' src={FirstPage} alt='' />}
-                        selectedIcon={<img className='tab-icon-img' src={FirstFullPage} alt='' />}
-                        selected={this.state.selectedTab === 'blueTab'}
-                        badge={2}
-                        onPress={() => {
-                            this.setState({
-                                selectedTab: 'blueTab',
-                            });
-                        }}
-                        data-seed="logId"
-                    >
-                        <p>22</p>
-                    </TabBar.Item>
-                    <TabBar.Item
-                        icon={
-                            <div style={{
-                                width: '22px',
-                                height: '22px',
-                                background: 'url(https://gw.alipayobjects.com/zos/rmsportal/BTSsmHkPsQSPTktcXyTV.svg) center center /  21px 21px no-repeat'
-                            }}
-                            />
-                        }
-                        selectedIcon={
-                            <div style={{
-                                width: '22px',
-                                height: '22px',
-                                background: 'url(https://gw.alipayobjects.com/zos/rmsportal/ekLecvKBnRazVLXbWOnE.svg) center center /  21px 21px no-repeat'
-                            }}
-                            />
-                        }
-                        title="Koubei"
-                        key="Koubei"
-                        badge={'new'}
-                        selected={this.state.selectedTab === 'redTab'}
-                        onPress={() => {
-                            this.setState({
-                                selectedTab: 'redTab',
-                            });
-                        }}
-                        data-seed="logId1"
-                    >
-                        <div>22333</div>
-                    </TabBar.Item>
-                    <TabBar.Item
-                        icon={
-                            <div style={{
-                                width: '22px',
-                                height: '22px',
-                                background: 'url(https://zos.alipayobjects.com/rmsportal/psUFoAMjkCcjqtUCNPxB.svg) center center /  21px 21px no-repeat'
-                            }}
-                            />
-                        }
-                        selectedIcon={
-                            <div style={{
-                                width: '22px',
-                                height: '22px',
-                                background: 'url(https://zos.alipayobjects.com/rmsportal/IIRLrXXrFAhXVdhMWgUI.svg) center center /  21px 21px no-repeat'
-                            }}
-                            />
-                        }
-                        title="Friend"
-                        key="Friend"
-                        dot
-                        selected={this.state.selectedTab === 'greenTab'}
-                        onPress={() => {
-                            this.setState({
-                                selectedTab: 'greenTab',
-                            });
-                        }}
-                    >
-                        <p>3333</p>
-                    </TabBar.Item>
-                    <TabBar.Item */}
-          {/* icon={{ uri: 'https://zos.alipayobjects.com/rmsportal/asJMfBrNqpMMlVpeInPQ.svg' }}
-                        selectedIcon={{ uri: 'https://zos.alipayobjects.com/rmsportal/gjpzzcrPMkhfEqgbYvmN.svg' }}
-                        title="My"
-                        key="my"
-                        selected={this.state.selectedTab === 'yellowTab'}
-                        onPress={() => {
-                            this.setState({
-                                selectedTab: 'yellowTab',
-                            });
-                        }}
-                    > */}
-          {/* <PersonalInfo></PersonalInfo>
-                    </TabBar.Item> */}
         </TabBar>
       </div>
     )
   }
 }
+
+export default connect(
+  state => state,
+  { userAuthSuccess }
+)(Main)

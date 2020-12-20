@@ -18,8 +18,8 @@ import Buy from '../assets/svg/buy.svg'
 import BuyFull from '../assets/svg/buy_full.svg'
 import MsgCircle from '../assets/svg/message.svg'
 import MsgCircleFull from '../assets/svg/message_full.svg'
-import Person from '../assets/svg/person.svg'
-import PersonFull from '../assets/svg/person_full.svg'
+import Person from '../assets/svg/friend_list.svg'
+import PersonFull from '../assets/svg/friend_list_full.svg'
 
 export { CameraSvg }
 export { Scanning }

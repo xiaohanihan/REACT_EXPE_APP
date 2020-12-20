@@ -26,6 +26,19 @@ baseAxios.interceptors.request.use(function (config) {
     console.log(ret);
 })
 
+baseAxios.interceptors.response.use(res => {
+    return res;
+}, error => {
+    // 如果返回 401，则提示重新登录
+    if (error.response.status === 401) {
+        history.push('/login')
+        Toast.fail(error.response.data.message)
+        return error.response
+    }
+    Toast.fail(error.response.data)
+    return error
+});
+
 const formAxios = axios.create({
     headers: {
         'Content-Type': 'multipart/form-data'
@@ -35,9 +48,7 @@ const formAxios = axios.create({
 formAxios.interceptors.request.use(function (config) {
     config.headers.authorization = 'Bearer ' + cookies.load('token')
     return config;
-}, function (ret) {
-    console.log(ret);
-})
+}, function (ret) {})
 
 formAxios.interceptors.response.use(res => {
     return res;

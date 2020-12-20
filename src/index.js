@@ -28,7 +28,7 @@ ReactDom.render(
         <Route path='/personalInfo'>
           <PersonalInfoCon></PersonalInfoCon>
         </Route>
-        <Route path='/' exact>
+        <Route>
           <Main></Main>
         </Route>
       </Switch>
