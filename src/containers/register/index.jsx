@@ -21,7 +21,8 @@ class Register extends React.Component {
   login = async () => {
     try
     {
-      const result = await baseAxios('/users', this.state);
+      debugger
+      const result = await baseAxios.post('/users', this.state);
       if (result.status === 200)
       {
         Toast.success('注册成功');
@@ -29,7 +30,7 @@ class Register extends React.Component {
       }
     } catch (err)
     {
-      Toast.fail(`注册失败：${err.response.data.message}`)
+      Toast.fail(`注册失败：${err}`)
     }
   }
 
@@ -65,7 +66,7 @@ class Register extends React.Component {
         >密码</InputItem>
 
         <InputItem
-          type='number'
+          type='text'
           // defaultValue={100}
           placeholder="请输入昵称"
           moneyKeyboardAlign="left"

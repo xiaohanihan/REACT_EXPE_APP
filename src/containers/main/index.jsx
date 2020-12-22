@@ -1,28 +1,31 @@
 import React from 'react';
-import { TabBar } from 'antd-mobile'
+import { TabBar, NavBar } from 'antd-mobile'
 import {
   FirstPage,
-  FirstFullPage, Self, SelfFull, NewInfo, NewInfoFull, Person, PersonFull, MsgCircle, MsgCircleFull
+  FirstFullPage, Self, SelfFull, NewInfo, NewInfoFull, Person, PersonFull, MsgCircle, MsgCircleFull, Plus
 } from '../../utils/importSvg';
 import './main.less';
 import PersonalInfo from '../personalInfo/personalInfo'
 import Cookies from 'react-cookies'
-import { Redirect } from 'react-router-dom'
+import { Redirect, Switch, Route, Router, withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { userAuthSuccess } from '../../redux/actions'
 import { baseAxios } from '../../utils/axios'
+import NotFound from "../../components/notFound/notFound";
+import history from '../../utils/history'
+import FriendList from '../friendList/friendList'
 
 class Main extends React.Component {
   state = {
-    selectedTab: 'firstPage',
+    selectedTab: '/firstPage',
     hidden: false,
     fullScreen: false,
     tabIcons: [
-      { title: '首页', tabName: 'firstPage', icon: FirstPage, activeIcon: FirstFullPage, component: <div>22</div> },
-      { title: '联系人', tabName: 'channel', icon: Person, activeIcon: PersonFull, component: <div>33</div> },
-      { title: '动态', tabName: 'activeNews', icon: NewInfo, activeIcon: NewInfoFull, component: <div>44</div> },
-      { title: '消息', tabName: 'buy', icon: MsgCircle, activeIcon: MsgCircleFull, component: <div>11</div> },
-      { title: '我的', tabName: 'self', icon: Self, activeIcon: SelfFull, component: PersonalInfo },
+      { title: '首页', tabName: '/firstPage', icon: FirstPage, activeIcon: FirstFullPage, component: <div>22</div> },
+      { title: '通讯录', tabName: '/friendList', icon: Person, activeIcon: PersonFull, component: <div>33</div> },
+      { title: '动态', tabName: '/activeNews', icon: NewInfo, activeIcon: NewInfoFull, component: <div>44</div> },
+      { title: '消息', tabName: '/buy', icon: MsgCircle, activeIcon: MsgCircleFull, component: <div>44</div> },
+      { title: '我的', tabName: '/self', icon: Self, activeIcon: SelfFull, component: <PersonalInfo></PersonalInfo> },
     ]
   };
 
@@ -35,7 +38,7 @@ class Main extends React.Component {
     }
   }
 
-  render() {
+  render () {
     // 如果没有token信息，则跳转到登录页面
     const token = Cookies.load('token');
     if (!token) {
@@ -43,8 +46,17 @@ class Main extends React.Component {
     }
     // 如果有token，redux里没有_id，则自动获取用户信息保存到redux中
     const { tabIcons } = this.state;
+
     return (
-      <div style={{ position: 'fixed', height: '100%', width: '100%', top: 0 }}>
+      <div>
+        <Router history={history}>
+          <Switch>
+            <Route path='/firstPage' component={props => <PersonalInfo  {...props} />}></Route>
+            <Route path='/friendList' component={props => <FriendList  {...props} />}></Route>
+            <Route component={NotFound}></Route>
+          </Switch>
+        </Router>
+
         <TabBar
           unselectedTintColor="#A2A2A2"
           tintColor="#FB7299"
@@ -59,13 +71,9 @@ class Main extends React.Component {
                 selectedIcon={<img className='tab-icon-img' src={item.activeIcon} alt='' />}
                 selected={this.state.selectedTab === item.tabName}
                 onPress={() => {
-                  this.setState({
-                    selectedTab: item.tabName,
-                  });
-                }}
-              >
-                <PersonalInfo></PersonalInfo>
-              </TabBar.Item>
+                  this.setState({selectedTab: item.tabName})
+                  history.replace(item.tabName);
+                }} />
             ))
           }
         </TabBar>
@@ -74,7 +82,7 @@ class Main extends React.Component {
   }
 }
 
-export default connect(
+export default withRouter(connect(
   state => state,
   { userAuthSuccess }
-)(Main)
+)(Main))

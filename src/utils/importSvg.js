@@ -20,6 +20,7 @@ import MsgCircle from '../assets/svg/message.svg'
 import MsgCircleFull from '../assets/svg/message_full.svg'
 import Person from '../assets/svg/friend_list.svg'
 import PersonFull from '../assets/svg/friend_list_full.svg'
+import Plus from '../assets/svg/plus.svg'
 
 export { CameraSvg }
 export { Scanning }
@@ -43,3 +44,4 @@ export { MsgCircle }
 export { MsgCircleFull }
 export { Person }
 export { PersonFull }
+export { Plus }

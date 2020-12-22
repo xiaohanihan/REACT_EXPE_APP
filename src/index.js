@@ -10,9 +10,6 @@ import { Provider } from 'react-redux'
 import store from './redux/store'
 import './assets/index.less'
 import history from './utils/history'
-// import { createBrowserHistory } from 'history'
-
-// const history = createBrowserHistory()
 
 // 测试提交hahahh
 ReactDom.render(
@@ -28,7 +25,7 @@ ReactDom.render(
         <Route path='/personalInfo'>
           <PersonalInfoCon></PersonalInfoCon>
         </Route>
-        <Route>
+        <Route path='/'>
           <Main></Main>
         </Route>
       </Switch>
