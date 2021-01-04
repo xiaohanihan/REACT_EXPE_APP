@@ -1,17 +1,21 @@
 import React from 'react';
 import { NavBar, Icon, InputItem, WhiteSpace, Button, WingBlank, Toast } from 'antd-mobile';
-import { createForm } from 'rc-form';
+// import { createForm } from 'rc-form';
 import './index.less';
 import { Link } from "react-router-dom";
 import { baseAxios } from '../../utils/axios';
-
+import history from '../../utils/history'
+import cookies from 'react-cookies'
+import { userAuthSuccess } from '../../redux/actions'
+import { connect } from 'react-redux'
 /**
  * 注册
  */
 class Register extends React.Component {
   state = {
-    phone: '',
-    password: ''
+    account: '',
+    password: '',
+    nickName: ''
   }
 
   handleChange = (stateName, val) => {
@@ -21,12 +25,17 @@ class Register extends React.Component {
   login = async () => {
     try
     {
-      debugger
       const result = await baseAxios.post('/users', this.state);
-      if (result.status === 200)
+      if (result.status && result.status === 200)
       {
+        const {user, token} = result.data
         Toast.success('注册成功');
-        this.props.history.push('/')
+        this.props.userAuthSuccess(user)
+        // 将token存储到cookie中
+        cookies.save('token', token)
+        history.push('/')
+      }else{
+        Toast.fail(`${result.response.data.message}`)
       }
     } catch (err)
     {
@@ -52,12 +61,12 @@ class Register extends React.Component {
           // defaultValue={100}
           placeholder="请输入账号"
           moneyKeyboardAlign="left"
-          onChange={val => this.handleChange('phone', val)}
+          onChange={val => this.handleChange('account', val)}
           autoComplete="off"
         >账号</InputItem>
 
         <InputItem
-          type='number'
+          type='password'
           // defaultValue={100}
           placeholder="请输入密码"
           moneyKeyboardAlign="left"
@@ -70,7 +79,7 @@ class Register extends React.Component {
           // defaultValue={100}
           placeholder="请输入昵称"
           moneyKeyboardAlign="left"
-          onChange={val => this.handleChange('password', val)}
+          onChange={val => this.handleChange('nickName', val)}
         >昵称</InputItem>
         <WhiteSpace size="xl" />
         <WingBlank>
@@ -90,5 +99,9 @@ class Register extends React.Component {
   }
 }
 
-const RegisterCon = createForm()(Register);
-export default RegisterCon;
+// const RegisterCon = createForm()(Register);
+// export default RegisterCon;
+export default connect(
+  state => state,
+  { userAuthSuccess }
+)(Register)

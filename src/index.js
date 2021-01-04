@@ -4,28 +4,28 @@ import ReactDom from 'react-dom';
 import { Route, Switch, Router } from 'react-router-dom';
 import Register from './containers/register';
 import Login from './containers/login';
-import PersonalInfoCon from './containers/personalInfo/personalInfo.jsx';
 import Main from './containers/main';
 import { Provider } from 'react-redux'
 import store from './redux/store'
 import './assets/index.less'
 import history from './utils/history'
+import AddFriend from './containers/addFriend/addFriend'
+import Chat from './containers/chat/chat'
 
-// 测试提交hahahh
 ReactDom.render(
   <Provider store={store}>
     <Router history={history}>
       <Switch>
-        <Route path='/login'>
+        <Route exact path='/login'>
           <Login></Login>
         </Route>
-        <Route path='/register'>
+        <Route exact path='/register'>
           <Register></Register>
         </Route>
-        <Route path='/personalInfo'>
-          <PersonalInfoCon></PersonalInfoCon>
-        </Route>
-        <Route path='/'>
+        <Route path='/addFriend' component={props => <AddFriend  {...props} />}></Route>
+        <Route path='/chat' component={props => <Chat  {...props} />}></Route>
+
+        <Route  path='/'>
           <Main></Main>
         </Route>
       </Switch>

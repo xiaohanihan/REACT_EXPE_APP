@@ -36,8 +36,9 @@ class PersonalInfo extends React.Component {
         let file = this.imageUpload.files[0];
         const data = new FormData();
         data.append('image', file);
-        const result = await formAxios.post('/upload', data)
+        const result = await formAxios.post('/api/upload', data)
         if (result.status === 200) {
+          debugger
             this.props.user['headUrl'] = result.data.path;
             this.props.userAuthSuccess(this.props.user);
             // 上传成功后更新用户的头像信息
@@ -53,7 +54,7 @@ class PersonalInfo extends React.Component {
         headUrl = headUrl?headUrl:'https://i0.hdslb.com/bfs/face/member/noface.jpg@72w_72h_1c.webp';
         return <div>
             <div className="top-nav-div">
-                <SpanItem>挑战转正答题</SpanItem>
+                <SpanItem rightContent={<Icon type='right' />}>挑战转正答题</SpanItem>
                 <div>
                     <img className={'img-icon'} src={Scanning} alt="" />
                     <span>&emsp;&nbsp;&nbsp;</span>

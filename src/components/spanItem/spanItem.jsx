@@ -2,11 +2,15 @@ import React from 'react'
 import { Icon } from 'antd-mobile'
 import './spanItem.less'
 
-export default class SpanItem extends React.Component{
+export default class SpanItem extends React.Component {
 
-    render() {
-        return <div className="main-style">
-            {this.props.children}&emsp;<Icon type='right' />
-        </div>
-    }
+  render () {
+    const {
+      className
+    } = this.props;
+    const divCls = `main-style ${className}`
+    return <div className={divCls}>
+      {this.props.children}{this.props.rightContent}
+    </div>
+  }
 }

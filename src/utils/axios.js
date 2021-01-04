@@ -40,7 +40,7 @@ baseAxios.interceptors.response.use(res => {
       Toast.fail('连接服务器失败')
       return error.response
     }
-  Toast.fail(error.response.data)
+  Toast.fail(error.response.data.message)
   return error
 });
 

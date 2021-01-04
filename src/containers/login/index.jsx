@@ -13,7 +13,8 @@ class Login extends React.Component {
   state = {
     account: '',
     password: '',
-    nickName: ''
+    nickName: '',
+    disabled: true
   }
   componentDidMount () {
     // simulate img loading
@@ -49,11 +50,18 @@ class Login extends React.Component {
     }
   }
 
-  handleChange = (stateName, val) => {
-    this.setState({ [stateName]: val })
+  handleChange = async (stateName, val) => {
+    await this.setState({ [stateName]: val })
+    const { account, password } = this.state
+    if(account && password){
+      this.setState({disabled: false})
+    }else{
+      this.setState({disabled: true})
+    }
   }
 
   render () {
+    const { disabled } = this.state
     return <div>
       <NavBar
         mode="dark"
@@ -86,7 +94,7 @@ class Login extends React.Component {
         <WhiteSpace size="xl" />
         <WingBlank>
           {/* <Button type="ghost" inline style={{ marginRight: '4%' }} className='inline-btn' onClick={this.register}>注册</Button> */}
-          <Button type="primary" onClick={this.login}>登录</Button>
+          <Button disabled={disabled} type="primary" className='hhh' onClick={this.login}>登录</Button>
           <WhiteSpace />
         </WingBlank>
       </form>
