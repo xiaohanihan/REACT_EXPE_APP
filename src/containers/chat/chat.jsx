@@ -8,10 +8,10 @@ class Chat extends React.Component {
       <NavBar icon={<Icon type="left" />}
         onLeftClick={() => history.go(-1)}>某某</NavBar>
         <div>
-
+          
         </div>
         <div>
-          
+
         </div>
     </div>)
   }

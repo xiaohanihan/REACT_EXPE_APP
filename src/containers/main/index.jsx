@@ -43,6 +43,10 @@ class Main extends React.Component {
     this.setState({ selectedTab: pathname })
   }
 
+  shouldComponentUpdate(){
+    return true
+  }
+
   render () {
     // 如果没有token信息，则跳转到登录页面
     const token = Cookies.load('token');

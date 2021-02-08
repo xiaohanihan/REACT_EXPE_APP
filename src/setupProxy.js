@@ -13,4 +13,13 @@ module.exports = function (app) {
       '/api': ''
     }
   }));
+
+  // app.use('/', createProxyMiddleware({
+  //   target: 'http://localhost:4000',
+  //   changeOrigin: true,
+  //   // pathRewrite: {
+  //   //   '/api': ''
+  //   // }
+  // }));
+
 };
