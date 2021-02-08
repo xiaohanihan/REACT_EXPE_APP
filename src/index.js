@@ -11,6 +11,7 @@ import './assets/index.less'
 import history from './utils/history'
 import AddFriend from './containers/addFriend/addFriend'
 import Chat from './containers/chat/chat'
+import './utils/socket'
 
 ReactDom.render(
   <Provider store={store}>
